@@ -28,7 +28,7 @@ CREATE TABLE media(
     title varchar(20) not null,
     type varchar(20) not null,
     average_rating int,
-    genre_name varchar(10) not null,
+    g_id int,
     runtime int,
     rate_times int,
     foreign key (d_id) references directors(d_id)
@@ -53,9 +53,22 @@ CREATE TABLE genre(
 );
 
 CREATE TABLE subscription_plan(
+	s_id int auto_increment primary key,
 	s_type varchar(20) not null,
-    price varchar(10) not null,
-    length decimal(4, 2)
+    price decimal(4, 2) not null,
+    length int
+);
+
+CREATE TABLE subscription(
+	s_id int,
+    start_sub date,
+    end_sub date,
+    customer_id int,
+    primary key (s_id, customer_id),
+    foreign key (s_id) references subscription_plan(s_id)
+		on delete cascade,
+    foreign key (customer_id) references customer(customer_id)
+		on delete cascade 
 );
 
 CREATE TABLE trending_list(
