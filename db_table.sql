@@ -64,7 +64,6 @@ CREATE TABLE subscription(
 
 CREATE TABLE trending_list(
 	ranks int primary key,
-    title varchar(20) not null,
     m_id int, 
     foreign key (m_id) references media(m_id)
 		on delete cascade
@@ -72,7 +71,8 @@ CREATE TABLE trending_list(
 
 CREATE TABLE soundtracks(
 	st_id int primary key auto_increment,
-    title varchar(20) not null,
+	composer varchar(20) not null,
+    title varchar(40) not null,
 	m_id int,
     foreign key (m_id) references media(m_id)
 		on delete cascade  
@@ -227,29 +227,29 @@ INSERT INTO subscription VALUES(default, "2022-12-03", "2022-12-08", 10, "Daily"
 /*
 -- inserting 10 rows into trending_list
 -- made template
-INSERT INTO trending_list VALUES(default, title, 1);
-INSERT INTO trending_list VALUES(default, title, 2);
-INSERT INTO trending_list VALUES(default, title, 3);
-INSERT INTO trending_list VALUES(default, title, 4);
-INSERT INTO trending_list VALUES(default, title, 5);
-INSERT INTO trending_list VALUES(default, title, 6);
-INSERT INTO trending_list VALUES(default, title, 7);
-INSERT INTO trending_list VALUES(default, title, 8);
-INSERT INTO trending_list VALUES(default, title, 9);
-INSERT INTO trending_list VALUES(default, title, 10);
+INSERT INTO trending_list VALUES(default, 2);
+INSERT INTO trending_list VALUES(default, 3);
+INSERT INTO trending_list VALUES(default, 6);
+INSERT INTO trending_list VALUES(default, 8);
+INSERT INTO trending_list VALUES(default, 1);
+INSERT INTO trending_list VALUES(default, 9);
+INSERT INTO trending_list VALUES(default, 4);
+INSERT INTO trending_list VALUES(default, 5);
+INSERT INTO trending_list VALUES(default, 10);
+INSERT INTO trending_list VALUES(default, 7);
 
 -- inserting 10 rows into soundtracks
 -- made template
-INSERT INTO soundtracks VALUES(default, NAME, 1);
-INSERT INTO soundtracks VALUES(default, NAME, 2);
-INSERT INTO soundtracks VALUES(default, NAME, 3);
-INSERT INTO soundtracks VALUES(default, NAME, 4);
-INSERT INTO soundtracks VALUES(default, NAME, 5);
-INSERT INTO soundtracks VALUES(default, NAME, 6);
-INSERT INTO soundtracks VALUES(default, NAME, 7);
-INSERT INTO soundtracks VALUES(default, NAME, 8);
-INSERT INTO soundtracks VALUES(default, NAME, 9);
-INSERT INTO soundtracks VALUES(default, NAME, 10);
+INSERT INTO soundtracks VALUES(default, "John Williams", "Obi-Wan", 1);
+INSERT INTO soundtracks VALUES(default, "Nicholas Britell", "Just Look Up", 2);
+INSERT INTO soundtracks VALUES(default, "Luis Bacalov", "Django Theme Song", 3);
+INSERT INTO soundtracks VALUES(default, "Amdrei Shulgach", "First Lady" 4);
+INSERT INTO soundtracks VALUES(default, "Frederic Chopin", "Nocturne No. 5", 5);
+INSERT INTO soundtracks VALUES(default, "Randy Newman", "You've got a Friend in Me" 6);
+INSERT INTO soundtracks VALUES(default, "Fela Kuti", "Black Man's Cry", 7);
+INSERT INTO soundtracks VALUES(default, "Kendrick Lamar", "All the Stars", 8);
+INSERT INTO soundtracks VALUES(default, "Luciano Michelini", "Frolic", 9);
+INSERT INTO soundtracks VALUES(default, "Suzanne Collins", "The Hanging Tree", 10);
 
 */
 
@@ -280,16 +280,16 @@ INSERT INTO leaving_soon VALUES(10, "2028-12-17");
 /*
 -- inserting 10 rows into production_company
 -- made template
-INSERT INTO production_company VALUES(default, NAME, 1);
-INSERT INTO production_company VALUES(default, NAME, 2);
-INSERT INTO production_company VALUES(default, NAME, 3);
-INSERT INTO production_company VALUES(default, NAME, 4);
-INSERT INTO production_company VALUES(default, NAME, 5);
-INSERT INTO production_company VALUES(default, NAME, 6);
-INSERT INTO production_company VALUES(default, NAME, 7);
-INSERT INTO production_company VALUES(default, NAME, 8);
-INSERT INTO production_company VALUES(default, NAME, 9);
-INSERT INTO production_company VALUES(default, NAME, 10);
+INSERT INTO production_company VALUES(default, "Disney", 1);
+INSERT INTO production_company VALUES(default, "Hyperobject Industries", 2);
+INSERT INTO production_company VALUES(default, "Columbia Pictures", 3);
+INSERT INTO production_company VALUES(default, "Showtime", 4);
+INSERT INTO production_company VALUES(default, "Columbia Pictures", 5);
+INSERT INTO production_company VALUES(default, "Disney", 6);
+INSERT INTO production_company VALUES(default, "Universal", 7);
+INSERT INTO production_company VALUES(default, "Disney", 8);
+INSERT INTO production_company VALUES(default, "HBO", 9);
+INSERT INTO production_company VALUES(default, "Lionsgate", 10);
 
 -- inserting 10 rows into contract
 -- made template
