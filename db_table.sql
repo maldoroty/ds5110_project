@@ -25,10 +25,7 @@ CREATE TABLE media(
     a_id int,
     title varchar(20) not null,
     type varchar(20) not null,
-    average_rating int,
     g_id int,
-    runtime int,
-    rate_times int,
     foreign key (d_id) references directors(d_id)
 		on delete cascade,
 	foreign key (a_id) references actors(a_id)
@@ -36,49 +33,45 @@ CREATE TABLE media(
 );
 
 CREATE TABLE rating(
-	a_id int,
-    name varchar(20) not null,
-    ranks int,
-    primary key (a_id),
-    foreign key (a_id) references actors(a_id)
+	m_id int,
+    rating decimal(2, 1) not null,
+    primary key (m_id),
+    foreign key (m_id) references media(m_id)
 		on delete cascade    
 );
 
 CREATE TABLE genre(
 	g_id int primary key auto_increment,
-    genre_name varchar(10) not null,
-    num_plays int
+    genre_name varchar(10) not null
 );
 
 CREATE TABLE subscription_plan(
-	s_id int primary key auto_increment,
-	s_type varchar(20) not null,
+	s_type varchar(20) primary key not null,
     price decimal(4, 2) not null,
     length int
 );
 
 CREATE TABLE subscription(
-	s_id int auto_increment,
+	s_id int primary key auto_increment,
     start_sub date,
     end_sub date,
     customer_id int,
-    primary key (s_id, customer_id),
-    foreign key (s_id) references subscription_plan(s_id)
-		on delete cascade,
     foreign key (customer_id) references customer(customer_id)
 		on delete cascade 
 );
 
 CREATE TABLE trending_list(
-	m_id int,
+	ranks int primary key,
     title varchar(20) not null,
-    ranks int
+    m_id int, 
+    foreign key (m_id) references media(m_id)
+		on delete cascade
 );
 
 CREATE TABLE soundtracks(
 	st_id int primary key auto_increment,
-    m_id int,
     title varchar(20) not null,
+	m_id int,
     foreign key (m_id) references media(m_id)
 		on delete cascade  
 );
@@ -136,7 +129,7 @@ INSERT INTO actors VALUES(default, "Tom Hanks", 5);
 INSERT INTO actors VALUES(default, "Michael B. Jordan", 6);
 INSERT INTO actors VALUES(default, "Jennifer Lawrence", 7);
 INSERT INTO actors VALUES(default, "Idris Elba", 8);
-INSERT INTO actors VALUES(default, "Woody Harrelson", 9);
+INSERT INTO actors VALUES(default, "Larry David", 9);
 INSERT INTO actors VALUES(default, "Viola Davis", 10);
 
 -- inserting 10 rows into directors table
@@ -150,3 +143,49 @@ INSERT INTO directors VALUES(default, "Baltasar Kormakur", 7);
 INSERT INTO directors VALUES(default, "Ryan Coogler", 8);
 INSERT INTO directors VALUES(default, "Francis Lawrence", 9);
 INSERT INTO directors VALUES(default, "Robert B. Wiede", 10);
+
+-- inserting 10 rows into genre 
+INSERT INTO genre VALUES(default, "Adventure");
+INSERT INTO genre VALUES(default, "Drama");
+INSERT INTO genre VALUES(default, "Western");
+INSERT INTO genre VALUES(default, "History");
+INSERT INTO genre VALUES(default, "Romance");
+INSERT INTO genre VALUES(default, "Animation");
+INSERT INTO genre VALUES(default, "Horror");
+INSERT INTO genre VALUES(default, "Action");
+INSERT INTO genre VALUES(default, "Comedy");
+INSERT INTO genre VALUES(default, "Sci-Fi");
+
+-- inserting 10 rows into media
+INSERT INTO media VALUES(default, 4, 1, "Obi-Wan Kenobi", "TV Show", 1);
+INSERT INTO media VALUES(default, 1, 3, "Don't Look Up", "Movie", 2);
+INSERT INTO media VALUES(default, 2, 2, "Django Unchained", "Movie", 3);
+INSERT INTO media VALUES(default, 3, 10, "The First Lady", "TV Show", 4);
+INSERT INTO media VALUES(default, 5, 4, "Little Women", "Movie", 5);
+INSERT INTO media VALUES(default, 6, 5, "Toy Story 4", "Movie", 6);
+INSERT INTO media VALUES(default, 7, 8, "Beast", "Movie", 7);
+INSERT INTO media VALUES(default, 8, 6, "Black Panther", "Movie", 8);
+INSERT INTO media VALUES(default, 10, 9, "Curb Your Enthusiasm", "TV Show", 9);
+INSERT INTO media VALUES(default, 9, 7, "The Hunger Games", "Movie", 10);
+
+-- inserting 10 rows into rating
+INSERT INTO rating VALUES(1, 7.1);
+INSERT INTO rating VALUES(2, 7.2);
+INSERT INTO rating VALUES(3, 8.4);
+INSERT INTO rating VALUES(4, 7.1);
+INSERT INTO rating VALUES(5, 7.8);
+INSERT INTO rating VALUES(6, 7.7);
+INSERT INTO rating VALUES(7, 5.6);
+INSERT INTO rating VALUES(8, 7.3);
+INSERT INTO rating VALUES(9, 8.8);
+INSERT INTO rating VALUES(10, 6.6);
+
+-- inserting 10 rows into subscription plan
+INSERT INTO subscription_plan VALUES("Rental", 3.00);
+INSERT INTO subscription_plan VALUES("One week", 4.99);
+INSERT INTO subscription_plan VALUES("One month", 6.99);
+INSERT INTO subscription_plan VALUES("One year", 72.00);
+INSERT INTO subscription_plan VALUES("Family Month", 8.99);
+INSERT INTO subscription_plan VALUES("Family Year", 80.00);
+INSERT INTO subscription_plan VALUES("Giant Family Month", 12.99);
+INSERT INTO subscription_plan VALUES("Giant Gamily Year", 99.99);
