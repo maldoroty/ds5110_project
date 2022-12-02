@@ -63,7 +63,7 @@ CREATE TABLE subscription(
 );
 
 CREATE TABLE trending_list(
-	ranks int primary key,
+	ranks int primary key auto_increment,
     m_id int, 
     foreign key (m_id) references media(m_id)
 		on delete cascade
@@ -96,7 +96,7 @@ CREATE TABLE leaving_soon(
 
 CREATE TABLE production_company(
 	p_id int primary key auto_increment,
-	name varchar(20) not null,
+	name varchar(40) not null,
 	m_id int,
     foreign key (m_id) references media(m_id)
 		on delete cascade
@@ -224,7 +224,7 @@ INSERT INTO subscription VALUES(default, "2021-08-23", "2025-08-23", 8, "Family 
 INSERT INTO subscription VALUES(default, "2017-01-06", "2026-01-05", 9, "Family Year");
 INSERT INTO subscription VALUES(default, "2022-12-03", "2022-12-08", 10, "Daily");
 
-/*
+
 -- inserting 10 rows into trending_list
 -- made template
 INSERT INTO trending_list VALUES(default, 2);
@@ -243,15 +243,14 @@ INSERT INTO trending_list VALUES(default, 7);
 INSERT INTO soundtracks VALUES(default, "John Williams", "Obi-Wan", 1);
 INSERT INTO soundtracks VALUES(default, "Nicholas Britell", "Just Look Up", 2);
 INSERT INTO soundtracks VALUES(default, "Luis Bacalov", "Django Theme Song", 3);
-INSERT INTO soundtracks VALUES(default, "Amdrei Shulgach", "First Lady" 4);
+INSERT INTO soundtracks VALUES(default, "Amdrei Shulgach", "First Lady", 4);
 INSERT INTO soundtracks VALUES(default, "Frederic Chopin", "Nocturne No. 5", 5);
-INSERT INTO soundtracks VALUES(default, "Randy Newman", "You've got a Friend in Me" 6);
+INSERT INTO soundtracks VALUES(default, "Randy Newman", "You've got a Friend in Me", 6);
 INSERT INTO soundtracks VALUES(default, "Fela Kuti", "Black Man's Cry", 7);
 INSERT INTO soundtracks VALUES(default, "Kendrick Lamar", "All the Stars", 8);
 INSERT INTO soundtracks VALUES(default, "Luciano Michelini", "Frolic", 9);
 INSERT INTO soundtracks VALUES(default, "Suzanne Collins", "The Hanging Tree", 10);
 
-*/
 
 -- inserting 10 rows into recently_added
 INSERT INTO recently_added VALUES(1, "2013-01-01");
@@ -277,7 +276,7 @@ INSERT INTO leaving_soon VALUES(8, "2027-09-23");
 INSERT INTO leaving_soon VALUES(9, "2028-11-30");
 INSERT INTO leaving_soon VALUES(10, "2028-12-17");
 
-/*
+
 -- inserting 10 rows into production_company
 -- made template
 INSERT INTO production_company VALUES(default, "Disney", 1);
@@ -289,7 +288,7 @@ INSERT INTO production_company VALUES(default, "Disney", 6);
 INSERT INTO production_company VALUES(default, "Universal", 7);
 INSERT INTO production_company VALUES(default, "Disney", 8);
 INSERT INTO production_company VALUES(default, "HBO", 9);
-INSERT INTO production_company VALUES(default, "Lionsgate", 10);
+INSERT INTO production_company VALUES(default,  "Lionsgate", 10);
 
 -- inserting 10 rows into contract
 -- made template
@@ -303,5 +302,4 @@ INSERT INTO contract VALUES(default, 7, 300000);
 INSERT INTO contract VALUES(default, 8, 950000);
 INSERT INTO contract VALUES(default, 9, 600000);
 INSERT INTO contract VALUES(default, 10, 450000);
-*/
 
