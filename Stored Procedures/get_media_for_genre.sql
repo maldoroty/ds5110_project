@@ -20,3 +20,22 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- update rating
+DROP procedure IF EXISTS ‘UpdateRating’;
+
+DELIMITER $$
+
+CREATE PROCEDURE UpdateRating(
+    in updated_m_id int, 
+    in new_rating decimal(2, 1)
+)
+BEGIN
+    UPDATE rating
+	SET rating = new_rating
+	WHERE rating.m_id = updated.m_id;
+    ;
+    
+END$$
+
+DELIMITER ;
