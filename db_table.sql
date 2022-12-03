@@ -136,20 +136,6 @@ INSERT INTO actors VALUES(default, "Idris Elba", 8);
 INSERT INTO actors VALUES(default, "Larry David", 9);
 INSERT INTO actors VALUES(default, "Viola Davis", 10);
 
-/*
--- trying to fix 'no default value' error
-INSERT INTO actors(name, ranks) VALUES("Ewan McGregor", 1);
-INSERT INTO actors(name, ranks) VALUES("Leonardo DiCaprio", 2);
-INSERT INTO actors(name, ranks) VALUES("Meryl Streep", 3);
-INSERT INTO actors(name, ranks) VALUES("Saoirse Ronan", 4);
-INSERT INTO actors(name, ranks) VALUES("Tom Hanks", 5);
-INSERT INTO actors(name, ranks) VALUES("Michael B. Jordan", 6);
-INSERT INTO actors(name, ranks) VALUES("Jennifer Lawrence", 7);
-INSERT INTO actors(name, ranks) VALUES("Idris Elba", 8);
-INSERT INTO actors(name, ranks) VALUES("Larry David", 9);
-INSERT INTO actors(name, ranks) VALUES("Viola Davis", 10);
-*/
-
 -- inserting 10 rows into directors table
 INSERT INTO directors VALUES(default, "Adam McKay", 4);
 INSERT INTO directors VALUES(default, "Quentin Tarantino", 1);
@@ -200,7 +186,6 @@ INSERT INTO genre VALUES(default, "Sci-Fi");
 
 -- inserting 10 rows into subscription plan
 INSERT INTO subscription_plan VALUES("Daily", 1.99);
--- INSERT INTO subscription_plan VALUES("Rental", 3.00);
 INSERT INTO subscription_plan VALUES("Weekly", 4.99);
 INSERT INTO subscription_plan VALUES("Monthly", 6.99);
 INSERT INTO subscription_plan VALUES("Quarterly", 19.99);
@@ -224,9 +209,7 @@ INSERT INTO subscription VALUES(default, "2021-08-23", "2025-08-23", 8, "Family 
 INSERT INTO subscription VALUES(default, "2017-01-06", "2026-01-05", 9, "Family Year");
 INSERT INTO subscription VALUES(default, "2022-12-03", "2022-12-08", 10, "Daily");
 
-
 -- inserting 10 rows into trending_list
--- made template
 INSERT INTO trending_list VALUES(default, 2);
 INSERT INTO trending_list VALUES(default, 3);
 INSERT INTO trending_list VALUES(default, 6);
@@ -239,7 +222,6 @@ INSERT INTO trending_list VALUES(default, 10);
 INSERT INTO trending_list VALUES(default, 7);
 
 -- inserting 10 rows into soundtracks
--- made template
 INSERT INTO soundtracks VALUES(default, "John Williams", "Obi-Wan", 1);
 INSERT INTO soundtracks VALUES(default, "Nicholas Britell", "Just Look Up", 2);
 INSERT INTO soundtracks VALUES(default, "Luis Bacalov", "Django Theme Song", 3);
@@ -278,7 +260,6 @@ INSERT INTO leaving_soon VALUES(10, "2028-12-17");
 
 
 -- inserting 10 rows into production_company
--- made template
 INSERT INTO production_company VALUES(default, "Disney", 1);
 INSERT INTO production_company VALUES(default, "Hyperobject Industries", 2);
 INSERT INTO production_company VALUES(default, "Columbia Pictures", 3);
@@ -291,7 +272,6 @@ INSERT INTO production_company VALUES(default, "HBO", 9);
 INSERT INTO production_company VALUES(default,  "Lionsgate", 10);
 
 -- inserting 10 rows into contract
--- made template
 INSERT INTO contract VALUES(default, 1, 100000);
 INSERT INTO contract VALUES(default, 2, 50000);
 INSERT INTO contract VALUES(default, 3, 1000000);
