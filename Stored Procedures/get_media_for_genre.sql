@@ -1,6 +1,6 @@
 -- Get media for genre
 
-USE streaming_service_db;
+USE new_schema;
 
 DROP procedure IF EXISTS ‘GetMedia’;
 
@@ -33,8 +33,25 @@ CREATE PROCEDURE UpdateRating(
 BEGIN
     UPDATE rating
 	SET rating = new_rating
-	WHERE rating.m_id = updated.m_id;
-    ;
+	WHERE rating.m_id = updated_m_id;
+    
+END$$
+
+DELIMITER ;
+
+-- update rating
+DROP procedure IF EXISTS ‘UpdatePassword’;
+
+DELIMITER $$
+
+CREATE PROCEDURE UpdatePassword(
+    in update_user int, 
+    in update_password varchar(20)
+)
+BEGIN
+    UPDATE customer
+	SET password = update_password
+	WHERE username = update_user;
     
 END$$
 
