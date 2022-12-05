@@ -171,6 +171,16 @@ def main(conn):
             params = (sub_type,)
             print_result = True
             should_commit = False
+            
+        elif query_type.lower() == "get media":
+            prompt = "Please enter a genre"
+            genre = input(prompt)
+            with conn.cursor as cursor:
+                cursor.callproc("GetMedia", (genre,))
+                results = cursor.stored_results
+                for result in results:
+                    for title in results.fetchall():
+                        print(title)
 
         elif query_type.lower() == "exit":
             print("Exiting database app...")
