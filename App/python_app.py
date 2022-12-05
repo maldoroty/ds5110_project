@@ -30,6 +30,7 @@ def main(conn):
             print("     delete  :  remove data from a table")
             print("     update  :  modify existing data in a table")
             print("     viewership  :  view information about users and the media they have recently consumed")
+            print("     contract eval : view information about contract success")
             print("     look  :   get all data from a certain table")
             print("     exit  :   logout of this app")
 
@@ -84,6 +85,18 @@ def main(conn):
                 SELECT c.customer_id, c.name, c.email, c.username, m.title, a.name AS actor, d.name AS director, m.type, g.genre_name AS genre
                 FROM watched w, customer c, media m, actors a, directors d, genre g
                 WHERE w.c_id = c.customer_id AND w.m_id = m.m_id AND m.a_id = a.a_id AND m.d_id = d.d_id and m.g_id = g.g_id
+            """
+            print_result = True
+            should_commit = False
+           
+        elif query_type.lower() == "contract eval":
+            query = """
+                SELECT p.name as production_company, m.title as media_title, c.amount as $, count(w.m_id) as watch_count
+                FROM contract c, production_company p, media m
+                LEFT OUTER JOIN watched w 
+                ON w.m_id = m.m_id
+                WHERE c.p_id = p.p_id AND m.m_id = p.m_id
+                GROUP BY production_company, media_title, $
             """
             print_result = True
             should_commit = False
