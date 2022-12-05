@@ -110,7 +110,7 @@ CREATE TABLE contract(
 		on delete cascade
 );
 
-CREATE TABLE movies_watched(
+CREATE TABLE watched(
 	c_id int,
     m_id int,
     primary key (c_id, m_id)
