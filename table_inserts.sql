@@ -171,3 +171,15 @@ INSERT INTO contract VALUES(default, 7, 300000);
 INSERT INTO contract VALUES(default, 8, 950000);
 INSERT INTO contract VALUES(default, 9, 600000);
 INSERT INTO contract VALUES(default, 10, 450000);
+
+-- inserting 10 rows into movies watched
+INSERT INTO movies_watched VALUES(2, 7);
+INSERT INTO movies_watched VALUES(9, 1);
+INSERT INTO movies_watched VALUES(6, 8);
+INSERT INTO movies_watched VALUES(10, 5);
+INSERT INTO movies_watched VALUES(4, 3);
+INSERT INTO movies_watched VALUES(2, 1);
+INSERT INTO movies_watched VALUES(3, 4);
+INSERT INTO movies_watched VALUES(5, 10);
+INSERT INTO movies_watched VALUES(8, 7);
+INSERT INTO movies_watched VALUES(6, 3)

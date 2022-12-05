@@ -109,3 +109,10 @@ CREATE TABLE contract(
     foreign key (p_id) references production_company(p_id)
 		on delete cascade
 );
+
+CREATE TABLE movies_watched(
+	c_id int,
+    m_id int,
+    primary key (c_id, m_id)
+);
+    
