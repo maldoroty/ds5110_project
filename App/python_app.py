@@ -31,6 +31,7 @@ def main(conn):
             print("     update  :  modify existing data in a table")
             print("     viewership  :  view information about users and the media they have recently consumed")
             print("     contract eval : view information about contract success")
+            print("     customer usage : view information about customer activity")
             print("     look  :   get all data from a certain table")
             print("     exit  :   logout of this app")
 
@@ -100,7 +101,18 @@ def main(conn):
             """
             print_result = True
             should_commit = False
-
+          
+        elif query_type.lower() == "customer usage":
+            query = """
+                SELECT c.name, c.email, c.credit_card, s.start_sub, s.end_sub, s.s_type as sub_type, p.price, count(w.m_id) as media_watched
+                FROM subscription s, subscription_plan p, customer c
+                lEFT OUTER JOIN watched w
+                ON w.c_id = c.customer_id
+                WHERE s.s_type = p.s_type AND s.customer_id = c.customer_id
+                GROUP BY c.name, c.email, c.credit_card, s.start_sub, s.end_sub, sub_type, p.price
+            """
+            print_result = True
+            should_commit = False
 
         elif query_type.lower() == "look":
             table_name = input("Enter table name: ")
