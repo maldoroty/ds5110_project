@@ -81,10 +81,9 @@ def main(conn):
 
         elif query_type.lower() == "viewership":
             query = """
-                SELECT *
-                FROM watched w, customer c, media m
-                WHERE w.c_id = c.customer_id AND
-                      w.m_id = m.m_id
+                SELECT c.customer_id, c.name, c.email, c.username, m.title, a.name AS actor, d.name AS director, m.type, g.genre_name AS genre
+                FROM watched w, customer c, media m, actors a, directors d, genre g
+                WHERE w.c_id = c.customer_id AND w.m_id = m.m_id AND m.a_id = a.a_id AND m.d_id = d.d_id and m.g_id = g.g_id
             """
             print_result = True
             should_commit = False
