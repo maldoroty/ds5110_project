@@ -5,7 +5,7 @@ from tabulate import tabulate
 from utils.update_utils import create_update_query
 from utils.insert_utils import create_insert_query
 from utils.delete_utils import create_delete_query
-from utils.table_utils import table_schemas, keys_for_deletion
+from utils.table_utils import table_schemas, keys_for_deletion, views, sub_types
 
 # use pandas for result
 
@@ -17,7 +17,7 @@ def main(conn):
 
     while is_running:
         print("")
-        query_type = input("Please enter a command, or enter 'help' to see list of available commands.\n>")
+        query_type = input("Please enter a command, or enter 'help' to see list of available commands.\n> ")
         query = ""
         params = tuple()
         print_result = False
@@ -33,6 +33,9 @@ def main(conn):
             print("     contract eval : view information about contract success")
             print("     customer usage : view information about customer activity")
             print("     look  :   get all data from a certain table")
+            print("     get_money   :   gets the total amount money earned by a production company")
+            print("     count_of_media   :   counts the amount of movies or TV shows")
+            print("     count_of_subscription   :   returns the number of subscriptions with the given subscription type")
             print("     exit  :   logout of this app")
 
         elif query_type.lower() == "insert":
@@ -115,19 +118,61 @@ def main(conn):
             should_commit = False
 
         elif query_type.lower() == "look":
-            table_name = input("Enter table name: ")
-            if table_name not in table_schemas:
+            name = input("Enter table name: ")
+            if name not in table_schemas and name not in views:
                 # This if statement will guard against SQL injection
-                print("There is no table called \"", table_name, "\" in the database.")
+                print("There is no table or view called \"", name, "\" in the database.")
                 continue
 
             query = """
                SELECT * 
                FROM
             """
-            query += table_name
+            query += name
             print_result = True
             should_commit = False
+
+        elif query_type.lower() == "get_money":
+            prod_company = input("Please enter a name of a production company: ")
+            query = """
+                SELECT get_money(%s);
+            """
+            params = (prod_company, )
+            print_result = True
+            should_commit = False
+
+
+        elif query_type.lower() == "count_of_media":
+            media_type = input("Please enter a media type (\"Movie\" or \"TV Show\"): ")
+            query = """
+                SELECT count_of_media(%s);
+            """
+            params = (media_type,)
+            print_result = True
+            should_commit = False
+
+        elif query_type.lower() == "count_of_subscription":
+            prompt = "Please enter one of the following subscription types:\n" + ", ".join(sub_types) + "\n"
+            sub_type = input(prompt)
+            query = """
+                SELECT count_of_subscription(%s);
+            """
+            params = (sub_type,)
+            print_result = True
+            should_commit = False
+
+
+        elif query_type.lower() == "count_of_subscription":
+            prompt = "Please enter a genre"
+            sub_type = input(prompt)
+            query = """
+                SELECT count_of_subscription(%s);
+            """
+            params = (sub_type,)
+            print_result = True
+            should_commit = False
+
+        GetMedia
 
 
         elif query_type.lower() == "exit":
@@ -138,7 +183,8 @@ def main(conn):
             print("Unkown command!")
 
         if query != "":
-            with conn.cursor() as cursor:
+            try:
+                with conn.cursor() as cursor:
                     cursor.execute(query, params)
                     if should_commit:
                         conn.commit()
@@ -147,6 +193,8 @@ def main(conn):
                     if print_result:
                         rows = cursor.fetchall()
                         print(tabulate(rows, headers = cursor.column_names))
+            except Error as e:
+                print(e)
                 
 
 
@@ -154,6 +202,7 @@ if __name__ == "__main__":
     login_attempts = 5
     logged_in = False
     print("Please enter your credentials.")
+    conn = None
     while not logged_in and login_attempts >= 0:
         try:
             conn = connect(
@@ -163,9 +212,9 @@ if __name__ == "__main__":
                 database = "streaming_service_db"
             )
             logged_in = True
-            main(conn)
 
         except Error as e:
+            print(e)
             login_attempts -= 1
 
             if login_attempts == 0:
@@ -173,6 +222,8 @@ if __name__ == "__main__":
                 break
             else:
                 print(f"Wrong login information! Please re-enter your credentials. You have {login_attempts} retries remaining.")
+
+    main(conn)
 
   
 

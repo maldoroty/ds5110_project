@@ -1,6 +1,6 @@
 -- get total amount of money from a production company
 
-USE new_schema;
+USE streaming_service_db;
 
 DROP function IF EXISTS ‘get_money’;
 

@@ -14,6 +14,10 @@ table_schemas = {"customer" : "customer_id: int | name: varchar(20) | email: var
                  "contract" : "contract_id: int | p_id: int | amount: int",
                  "movies_watched" : "c_id: int | m_id: int"}
 
+views = ["pc_public_info", "customer_public_info"]
+
+sub_types = ["Daily", "Weekly", "Monthly", "Quarterly", "Half Yearly", "Yearly", "Family Month", "Family Year", "Giant Family Month", "Giant Family Year"]
+
 
 keys_for_deletion = {"customer" : "customer_id: int",
                      "actors" : "a_id: int",
