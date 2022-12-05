@@ -1,6 +1,6 @@
 from mysql.connector import connect, Error
 from getpass import getpass
-import pandas as pd
+from tabulate import tabulate
 
 from utils.update_utils import create_update_query
 from utils.insert_utils import create_insert_query
@@ -9,104 +9,75 @@ from utils.table_utils import table_schemas, keys_for_deletion
 
 # use pandas for result
 
-try:
-    conn = connect(
-        host = "localhost",
-        user = input("Enter username: "),
-        password=getpass("Enter password: "),
-        database = "streaming_service_db"
-    )
-
-except Error as e:
-    print(e)
-
-# hi
-##inst_query = "Select * FROM instructor"
-##with conn.cursor() as cursor:
-##    cursor.execute(inst_query)
-##    result = cursor.fetchall()
-##    for row in result:
-##        print(row)
 
 
-
-def function():
-
-##    if query_type == "look": # account of case
-##        table_name = input("Enter table name: ")
-##        attr_name = input("Enter attribute name: ")
-##        inst_query = """
-##            Select %s FROM %s"""
-##        val_tuple = (attr_name, table_name)
-##        with conn.cursor() as cursor:
-##            cursor.execute(inst_query, val_tuple)
-##            conn.commit()
-##            #result = cursor.fetchall()
-##            #for row in result:
-##                #print(row)
+def main(conn):
 
     is_running = True
 
     while is_running:
-        query_type = input("Would like to insert, delete, update, or look at the database? ")
+        print("")
+        query_type = input("Please enter a command, or enter 'help' to see list of available commands.\n>")
+        query = ""
+        params = tuple()
+        print_result = False
+        should_commit = True
 
-        if query_type.lower() == "insert":
+        if query_type.lower() == "help":
+            print("Available Commands:")
+            print("-------------------")
+            print("     insert  :  insert data into a table")
+            print("     delete  :  remove data from a table")
+            print("     update  :  modify existing data in a table")
+            print("     viewership  :  view information about users and the media they have recently consumed")
+            print("     look  :   get all data from a certain table")
+            print("     exit  :   logout of this app")
+
+        elif query_type.lower() == "insert":
             table_name = input("Enter table name: ")
+            if table_name not in table_schemas:
+                print("There is no table called \"", table_name, "\" in the database.")
+                continue
             print("This is the schema for the \"", table_name, "\"")
             print(table_schemas[table_name])
+
             insert_attr = input("Please enter the attributes separated by commas: ")
-
             attrs = insert_attr.split(",")
-            
-            inst_query, attrs = create_insert_query(table_name, attrs)
-            attrs = tuple(attrs)
-            print(inst_query)
-            print(attrs)
+            query, attrs = create_insert_query(table_name, attrs)
+            params = tuple(attrs)
 
-            
-            with conn.cursor() as cursor:
-                cursor.execute(inst_query, attrs)
-                conn.commit()
             
         elif query_type.lower() == "delete":
             table_name = input("Enter table name: ")
+            if table_name not in table_schemas:
+                print("There is no table called \"", table_name, "\" in the database.")
+                continue
             print("These are the keys you must specify for delete in \"", table_name, "\"")
             print(keys_for_deletion[table_name])
-            user_input = input("Please enter the keys separated by commas: ")
 
+            user_input = input("Please enter the keys separated by commas: ")
             keys = user_input.split(",")
-            
-            del_query, keys = create_delete_query(table_name, keys)
-            keys = tuple(keys)
-            print(del_query)
-            print(keys)
-            
-            with conn.cursor() as cursor:
-                cursor.execute(del_query, keys)
-                conn.commit()
+            query, keys = create_delete_query(table_name, keys)
+            params = tuple(keys)
 
         
         elif query_type.lower() == "update":
             table_name = input("Enter table name: ")
-            if table_name == "watched":
+            if table_name not in table_schemas:
+                # This if statement will guard against SQL injection
+                print("There is no table called \"", table_name, "\" in the database.")
+                continue
+            elif table_name == "watched":
                 print("Watch history cannot be changed!")
                 continue
 
             print("This is the schema for the \"", table_name, "\"")
             print(table_schemas[table_name])
             user_input = input("Please enter the attributes separated by commas: ")
-
             update_params = user_input.split(",")
-            
-            update_query, update_params = create_update_query(table_name, update_params)
-            update_params = tuple(update_params)
-            print(update_query)
-            print(update_params)
+            query, update_params = create_update_query(table_name, update_params)
+            params = tuple(update_params)
 
-            
-            with conn.cursor() as cursor:
-                cursor.execute(update_query, update_params)
-                conn.commit()
 
         elif query_type.lower() == "viewership":
             query = """
@@ -115,12 +86,9 @@ def function():
                 WHERE w.c_id = c.customer_id AND
                       w.m_id = m.m_id
             """
+            print_result = True
+            should_commit = False
 
-            with conn.cursor() as cursor:
-               cursor.execute(query)
-               rows = cursor.fetchall()
-               df = pd.DataFrame(rows)
-               print(df)
 
         elif query_type.lower() == "look":
             table_name = input("Enter table name: ")
@@ -129,16 +97,13 @@ def function():
                 print("There is no table called \"", table_name, "\" in the database.")
                 continue
 
-            look_query = """
-               SELECT * FROM
+            query = """
+               SELECT * 
+               FROM
             """
-            look_query += table_name
-            with conn.cursor() as cursor:
-               cursor.execute(look_query)
-               rows = cursor.fetchall()
-               df = pd.DataFrame(rows)
-               print(df)
-
+            query += table_name
+            print_result = True
+            should_commit = False
 
 
         elif query_type.lower() == "exit":
@@ -148,13 +113,43 @@ def function():
         else:
             print("Unkown command!")
 
-function()
+        if query != "":
+            with conn.cursor() as cursor:
+                    cursor.execute(query, params)
+                    if should_commit:
+                        conn.commit()
+                    print("Command was successful!")
+                    if print_result:
+                        rows = cursor.fetchall()
+                        print(tabulate(rows, headers = cursor.column_names))
+                
+
+
+if __name__ == "__main__":
+    login_attempts = 5
+    logged_in = False
+    print("Please enter your credentials.")
+    while not logged_in and login_attempts >= 0:
+        try:
+            conn = connect(
+                host = "localhost",
+                user = input("Enter username: "),
+                password=getpass("Enter password: "),
+                database = "streaming_service_db"
+            )
+            logged_in = True
+            main(conn)
+
+        except Error as e:
+            login_attempts -= 1
+
+            if login_attempts == 0:
+                print("No more attempts left, exiting app")
+                break
+            else:
+                print(f"Wrong login information! Please re-enter your credentials. You have {login_attempts} retries remaining.")
+
+  
+
     
-        
-    
-##inst_query = "Select * FROM media"
-##with conn.cursor() as cursor:
-##    cursor.execute(inst_query)
-##    result = cursor.fetchall()
-##    for row in result:
-##        print(row)
+  
