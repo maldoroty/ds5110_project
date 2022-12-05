@@ -81,7 +81,7 @@ def main(conn):
 
         elif query_type.lower() == "viewership":
             query = """
-                SELECT *
+                SELECT c.c_id, c.name, c.email, c.username, m.m_id, m.title, m.a_id, m.d_id, m.type, m.g_id
                 FROM watched w, customer c, media m
                 WHERE w.c_id = c.customer_id AND
                       w.m_id = m.m_id
@@ -118,6 +118,7 @@ def main(conn):
                     cursor.execute(query, params)
                     if should_commit:
                         conn.commit()
+                        print("Number of rows affected: ", cursor.rowcount)
                     print("Command was successful!")
                     if print_result:
                         rows = cursor.fetchall()
