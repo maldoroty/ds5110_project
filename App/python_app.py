@@ -172,9 +172,6 @@ def main(conn):
             print_result = True
             should_commit = False
 
-        GetMedia
-
-
         elif query_type.lower() == "exit":
             print("Exiting database app...")
             is_running = False
