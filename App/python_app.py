@@ -5,7 +5,7 @@ from tabulate import tabulate
 from utils.update_utils import create_update_query
 from utils.insert_utils import create_insert_query
 from utils.delete_utils import create_delete_query
-from utils.table_utils import table_schemas, keys_for_deletion, views, sub_types
+from utils.table_utils import table_schemas, keys_for_deletion, views, sub_types, genre_types
 
 # use pandas for result
 
@@ -22,6 +22,7 @@ def main(conn):
         params = tuple()
         print_result = False
         should_commit = True
+        is_proc = False
 
         if query_type.lower() == "help":
             print("Available Commands:")
@@ -172,6 +173,13 @@ def main(conn):
             print_result = True
             should_commit = False
 
+        elif query_type.lower() == "stored_proc":
+            proc_name = input("\nPlease enter a stored procedure (\"GetMedia\" or \"UpdateRating\" or \"UpdatePassword\"): ")
+            params = input("\nPlease enter one of the following genre types:\n" + ", ".join(genre_types) + "\n")
+            params = (params,)
+            is_proc = True
+            
+
         elif query_type.lower() == "exit":
             print("Exiting database app...")
             is_running = False
@@ -179,19 +187,37 @@ def main(conn):
         else:
             print("Unkown command!")
 
-        if query != "":
-            try:
-                with conn.cursor() as cursor:
+        
+        try:
+            with conn.cursor() as cursor:
+                if is_proc:
+                    cursor.callproc(proc_name, params)
+                    results = cursor.stored_results()
+                    column_names = [elem[0] for elem in cursor.description]
+                    rows = [row for result in results for row in result.fetchall()]
+                    print(tabulate(rows, headers= column_names))
+
+                    # for result in results:
+                    #     for name in result.fetchall():
+                    #         print(name)
+
+                
+                elif query != "":
+
                     cursor.execute(query, params)
+
                     if should_commit:
                         conn.commit()
                         print("Number of rows affected: ", cursor.rowcount)
-                    print("Command was successful!")
-                    if print_result:
-                        rows = cursor.fetchall()
-                        print(tabulate(rows, headers = cursor.column_names))
-            except Error as e:
-                print(e)
+                        print("Command was successful!")
+
+                if print_result:
+                    rows = cursor.fetchall()
+                    print(tabulate(rows, headers = cursor.column_names))
+                
+
+        except Error as e:
+            print(e)
                 
 
 

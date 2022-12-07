@@ -18,6 +18,7 @@ views = ["pc_public_info", "customer_public_info"]
 
 sub_types = ["Daily", "Weekly", "Monthly", "Quarterly", "Half Yearly", "Yearly", "Family Month", "Family Year", "Giant Family Month", "Giant Family Year"]
 
+genre_types = ["Adventure", "Drama", "Western", "History", "Romance", "Animation", "Horror", "Action", "Comedy", "Sci-Fi"]
 
 keys_for_deletion = {"customer" : "customer_id: int",
                      "actors" : "a_id: int",
