@@ -7,6 +7,11 @@ CREATE TABLE customer(
     credit_card int unique
 );
 
+CREATE TABLE genre(
+	g_id int primary key auto_increment,
+    genre_name varchar(10) not null
+);
+
 CREATE TABLE actors(
 	a_id int primary key auto_increment,
     name varchar(20) not null,
@@ -29,6 +34,8 @@ CREATE TABLE media(
     foreign key (d_id) references directors(d_id)
 		on delete cascade,
 	foreign key (a_id) references actors(a_id)
+		on delete cascade,
+	foreign key (g_id) references genre(g_id)
 		on delete cascade
 );
 
@@ -38,11 +45,6 @@ CREATE TABLE rating(
     primary key (m_id),
     foreign key (m_id) references media(m_id)
 		on delete cascade    
-);
-
-CREATE TABLE genre(
-	g_id int primary key auto_increment,
-    genre_name varchar(10) not null
 );
 
 CREATE TABLE subscription_plan(
@@ -113,6 +115,8 @@ CREATE TABLE contract(
 CREATE TABLE watched(
 	c_id int,
     m_id int,
-    primary key (c_id, m_id)
+    primary key (c_id, m_id),
+    foreign key (c_id) references customer(customer_id),
+    foreign key (m_id) references media(m_id)
 );
     

@@ -12,6 +12,17 @@ INSERT INTO customer VALUES(default, "Christina", "christina0293@gmail.com", "ch
 INSERT INTO customer VALUES(default, "Allison", "allison9023@gmail.com", "allison9023", "allisonsdabomb", 55557483);
 INSERT INTO customer VALUES(default, "Damien", "damien01283@aol.com", "damien0123", "damionion", 55550384);
 
+-- inserting 10 rows into genre 
+INSERT INTO genre VALUES(default, "Adventure");
+INSERT INTO genre VALUES(default, "Drama");
+INSERT INTO genre VALUES(default, "Western");
+INSERT INTO genre VALUES(default, "History");
+INSERT INTO genre VALUES(default, "Romance");
+INSERT INTO genre VALUES(default, "Animation");
+INSERT INTO genre VALUES(default, "Horror");
+INSERT INTO genre VALUES(default, "Action");
+INSERT INTO genre VALUES(default, "Comedy");
+INSERT INTO genre VALUES(default, "Sci-Fi");
 
 -- inserting 10 rows into actors table
 INSERT INTO actors VALUES(default, "Ewan McGregor", 1);
@@ -60,18 +71,6 @@ INSERT INTO rating VALUES(7, 5.6);
 INSERT INTO rating VALUES(8, 7.3);
 INSERT INTO rating VALUES(9, 8.8);
 INSERT INTO rating VALUES(10, 6.6);
-
--- inserting 10 rows into genre 
-INSERT INTO genre VALUES(default, "Adventure");
-INSERT INTO genre VALUES(default, "Drama");
-INSERT INTO genre VALUES(default, "Western");
-INSERT INTO genre VALUES(default, "History");
-INSERT INTO genre VALUES(default, "Romance");
-INSERT INTO genre VALUES(default, "Animation");
-INSERT INTO genre VALUES(default, "Horror");
-INSERT INTO genre VALUES(default, "Action");
-INSERT INTO genre VALUES(default, "Comedy");
-INSERT INTO genre VALUES(default, "Sci-Fi");
 
 -- inserting 10 rows into subscription plan
 INSERT INTO subscription_plan VALUES("Daily", 1.99);
