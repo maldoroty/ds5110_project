@@ -1,6 +1,6 @@
 -- Get media for genre
 
-USE new_schema;
+USE streaming_service_db;
 
 DROP procedure IF EXISTS ‘GetMedia’;
 
@@ -45,7 +45,7 @@ DROP procedure IF EXISTS ‘UpdatePassword’;
 DELIMITER $$
 
 CREATE PROCEDURE UpdatePassword(
-    in update_user int, 
+    in update_user varchar(20), 
     in update_password varchar(20)
 )
 BEGIN

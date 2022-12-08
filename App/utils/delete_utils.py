@@ -1,5 +1,14 @@
 
 def create_delete_query(table_name, user_input):
+    """
+        Similar to the create_insert_query() and create_update_query()
+        functions.
+
+        Takes the table name and attributes and produces an appropriate query.
+        We have to do a lot of type casting since the attributes/fields entered
+        by the user is originally a string, and it depends on the table name as
+        to which attributes are casted to which types.
+    """
 
     if table_name == "customer":
         user_input[0] = int(user_input[0])
@@ -59,7 +68,6 @@ def create_delete_query(table_name, user_input):
         del_query = """
             DELETE FROM trending_list WHERE ranks = %s AND m_id = %s;
         """
-        # "movies_watched" : "c_id: int | m_id: int"
         
     elif table_name == "soundtracks":
         user_input[0] = int(user_input[0])

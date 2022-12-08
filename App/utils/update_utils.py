@@ -1,10 +1,16 @@
 
 def create_update_query(table_name, user_input):
     """
-    Creates the query and parameters for updating the given table.
-    Have to create the "params" list in order to re-order the inputs
-    since the update query has a different syntax than the INSERT (
-    from which I am reusing code from)
+        Creates the query and parameters for updating the given table.
+        Have to create the "params" list in order to re-order the inputs
+        since the order of the attributes in the query and the order of
+        the attributes in the prompt given to the user are different, so we
+        have to re-order the attributes so they go into their proper place
+        in the query. This allows us to reuse the "table_schemas" dictionary
+        in "insert_utils.py".
+
+        As well, we have to do type casting/conversion again because the
+        input of the user is originally a string.
     """
     params = []
     if table_name == "customer":

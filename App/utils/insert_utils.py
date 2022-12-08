@@ -1,6 +1,11 @@
 
 def create_insert_query(table_name, attrs):
-
+    """
+        Takes the table name and attributes and produces an appropriate query.
+        We have to do a lot of type casting since the attributes/fields entered
+        by the user is originally a string, and it depends on the table name as
+        to which attributes are casted to which types.
+    """
     if table_name == "customer":
         attrs[0] = int(attrs[0])
         attrs[5] = int(attrs[5])
