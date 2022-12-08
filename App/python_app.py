@@ -40,18 +40,20 @@ def main(conn):
             # Help command for users who want to know how to use this program
             print("Available Commands:")
             print("-------------------")
-            print("     insert  :  insert data into a table")
-            print("     delete  :  remove data from a table")
-            print("     update  :  modify existing data in a table")
-            print("     viewership  :  view information about users and the media they have recently consumed")
-            print("     stored_proc  :  view stored procedures regarding the database")
-            print("     contract eval : view information about contract success")
-            print("     customer usage : view information about customer activity")
-            print("     look  :   get all data from a certain table")
-            print("     get_money   :   gets the total amount money earned by a production company")
-            print("     count_of_media   :   counts the amount of movies or TV shows")
-            print("     count_of_subscription   :   returns the number of subscriptions with the given subscription type")
-            print("     exit  :   logout of this app")
+            print("                insert  :  insert data into a table")
+            print("                delete  :  remove data from a table")
+            print("                update  :  modify existing data in a table")
+            print("            viewership  :  view information about users and the media they have recently consumed")
+            print("           stored_proc  :  view stored procedures regarding the database")
+            print("          contract_eval : view information about contract success")
+            print("         customer_usage : view information about customer activity")
+            print("                  look  :   get all data from a certain table")
+            print("                    - customer_public_info   :  get the customer's public information")
+            print("                    -      pc_public_info    :  get the production company's public information")
+            print("            get_money   :   gets the total amount money earned by a production company")
+            print("       count_of_media   :   counts the amount of movies or TV shows")
+            print("count_of_subscription   :   returns the number of subscriptions with the given subscription type")
+            print("                  exit  :   logout of this app")
 
         elif query_type.lower() == "insert":
             table_name = input("Enter table name: ")
@@ -182,17 +184,6 @@ def main(conn):
 
         elif query_type.lower() == "count_of_subscription":
             prompt = "Please enter one of the following subscription types:\n" + ", ".join(sub_types) + "\n"
-            sub_type = input(prompt)
-            query = """
-                SELECT count_of_subscription(%s);
-            """
-            params = (sub_type,)
-            print_result = True
-            should_commit = False
-
-
-        elif query_type.lower() == "count_of_subscription":
-            prompt = "Please enter a genre"
             sub_type = input(prompt)
             query = """
                 SELECT count_of_subscription(%s);
